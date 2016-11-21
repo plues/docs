@@ -111,7 +111,7 @@ In the develop branch:
 
 
     git flow release start <version>
-    (cd data; git checkout master)
+    (cd data; git checkout master; git pull)
     git add data
     git commit -m 'Updated submodule to the latest release'
 
@@ -135,7 +135,7 @@ If everything works as expected:
 
 In the develop branch:
 
-    (cd data; git checkout develop)
+    (cd data; git checkout develop; git pull)
     git commit -m 'Updated submodule to the latest development version'
     bumpversion --verbose major|minor|patch
 
