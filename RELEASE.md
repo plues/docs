@@ -121,19 +121,32 @@ In the develop branch:
 
  * Requirements for python test runner are defined in `tests/requirements.txt`
   * Install with `pip install -r tests/requirements.txt` as appropiate.
+ * Update `tests/data/raw/Makefile`
+  * set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
+  corresponding release versions as chosen in the steps above.
+ * run `make test-data` to regenerate test data using the latest versions of **model-generator** and **mincer**.
 
 **Run Tests**
 
     make solver7_tests tests
 
-If everything works as expected:
+If everything works as expected commint changes and:
 
     bumpversion --verbose release
     git flow release finish
 
 ### 2. Next development version
 
+
 In the develop branch:
+
+* Update `tests/data/raw/Makefile`
+ * set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
+   corresponding `SNAPSHOT` versions as chosen in the steps above.
+* run `make test-data` to regenerate test data using the latest versions of **model-generator** and **mincer**.
+* commint changes
+
+then run:
 
     (cd data; git checkout develop; git pull)
     git commit -m 'Updated submodule to the latest development version'
