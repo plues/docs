@@ -124,11 +124,12 @@ In the develop branch:
  * Update `tests/data/raw/Makefile`
   * set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
   corresponding release versions as chosen in the steps above.
- * run `make test-data` to regenerate test data using the latest versions of **model-generator** and **mincer**.
+ * run `make test-data` to regenerate test data using the latest versions of **model-generator** and
+   **mincer**.
 
 **Run Tests**
 
-    make solver7_tests tests
+    make data.mch solver7_tests tests
 
 If everything works as expected commint changes and:
 
@@ -143,7 +144,8 @@ In the develop branch:
 * Update `tests/data/raw/Makefile`
  * set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
    corresponding `SNAPSHOT` versions as chosen in the steps above.
-* run `make test-data` to regenerate test data using the latest versions of **model-generator** and **mincer**.
+* run `make test-data` to regenerate test data using the latest versions of **model-generator** and
+  **mincer**.
 * commint changes
 
 then run:
