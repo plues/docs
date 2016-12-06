@@ -122,10 +122,13 @@ In the develop branch:
  * Requirements for python test runner are defined in `tests/requirements.txt`
   * Install with `pip install -r tests/requirements.txt` as appropiate.
  * Update `tests/data/raw/Makefile`
-  * set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
+  * set `MINCER_VERSION` and `MODEL_GENERATOR_VERSION` to the
   corresponding release versions as chosen in the steps above.
+  * `git add tests/data/raw/Makefile`
+  * `git commit -m 'Updated test dependencies to release versions'`
  * run `make test-data` to regenerate test data using the latest versions of **model-generator** and
    **mincer**.
+   
 
 **Run Tests**
 
@@ -142,11 +145,17 @@ If everything works as expected commint changes and:
 In the develop branch:
 
 * Update `tests/data/raw/Makefile`
- * set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
+ * set `MINCER_VERSION` and `MODEL_GENERATOR_VERSION` to the
    corresponding `SNAPSHOT` versions as chosen in the steps above.
-* run `make test-data` to regenerate test data using the latest versions of **model-generator** and
+* run `make test-data` to regenerate test data using the latest versions of 
+**model-generator** and
   **mincer**.
 * commint changes
+  * `git add tests/data/raw/Makefile`
+  * `git commit -m 'Updated test dependencies to development versions'`
+  * `git add tests/data/raw`
+  * `git commit -m 'Regenerated test files'`
+
 
 then run:
 
@@ -159,16 +168,27 @@ then run:
     git push origin master:master --tags
     git push origin develop:develop
 
+## Handbook
+
+### 1. Release
+
+### 2. Next Version
+
 ## PlUES
 
 ### 1. Release
 
+#### Start Release
+
     git flow release start <version>
-    (cd model-generator; git checkout master)
+
+#### Update model-generator submodule
+
+    (cd model-generator; git checkout master; git pull)
     git add model-generator
     git commit -m 'Updated submodule to the latest release'
 
-#### Update `src/main/resources/main.properties`:
+#### Update required model version in `src/main/resources/main.properties`:
 
  * Set `model_version` to released version of models project, as chosen above.
 
@@ -176,6 +196,16 @@ Commit changes:
 
     git add src/main/resources/main.properties
     git commit -m 'Updated required version of models'
+
+#### Update Handbook URL
+
+ * Set `handbook-url` to the URL of the released handbook in `src/main/resources/main.properties`.
+
+ Commit changes:
+
+    git add src/main/resources/main.properties
+    git commit -m 'Updated handbook url'
+
 
 #### Run tests
 
@@ -188,11 +218,24 @@ If everything works as expected:
 
 ### 2. Next development version
 
-In the develop branch:
+In the **develop** branch:
 
-    (cd model-model-generator; git checkout develop)
+#### Update model-generator submodule
+
+    (cd model-generator; git checkout develop; git pull)
+    git add model-generator
     git commit -m 'Updated submodule to the latest development version'
     bumpversion --verbose major|minor|patch
+
+#### Update required model version in `src/main/resources/main.properties`:
+
+ * Set `model_version` to released version of models project, as chosen above.
+
+Commit changes:
+
+    git add src/main/resources/main.properties
+    git commit -m 'Updated required version of models'
+
 
 ### 3. Push Everything
 
@@ -201,20 +244,60 @@ In the develop branch:
 
 ### 4. Preparing Distribution Artifacts
 
-#### 1. Packaging `models`
+#### 1. Packaging `mincer`
+
+On the corresponding branch, i.e. `master`.
+
+Download release build from https://www3.hhu.de/stups/downloads/plues/mincer/ or run:
+
+    lein uberjar launch4j
+
+Upload `mincer-<VERSION>-standalone.jar` and mincer-<VERSION>.exe` to the corresponding tag/release at https://github.com/plues/mincer/releases/.
+
+
+#### 2. Packaging `model-generator`
+
+On the corresponding branch, i.e. `master`.
+
+Download the release to be published from https://www3.hhu.de/stups/downloads/plues/model-generator/ or run:
+
+     ./gradlew buildStandaloneJar
+
+Upload `model-generator-4.2.0-SNAPSHOT.jar` and `model-generator-standalone-4.2.0-SNAPSHOT.jar` to the corresponding tag/release at https://github.com/plues/model-generator/releases.
+
+#### 3. Packaging `data`
+
+On the corresponding branch, i.e. `master`.
+
+Generate all databases:
+
+    make philfak-data.sqlite3
+    make wiwi-data.sqlite3 flavor=wiwi
+    make cs-data.sqlite3 flavor=cs
+
+Upload `philfak-data.sqlite`, `wiwi-data.sqlite3` and `cs-data.sqlite3` to the corresponding release at https://github.com/plues/data/releases.
+
+
+#### 4. Packaging `models`
 
 go to the models repository checkout.
 
-In the corresponding branch for the release (e.g. master) run:
+In the **corresponding branch** for the release (e.g. master) run:
 
-    make dist
+    make very_clean dist
 
 This copies and packages all relevant model files to `dist/models.zip`.
 
 Copy the created dist/models.zip file to the resources direcotry in the plues
 project: `src/main/resources`.
 
-#### 2. Create Distributable Packages
+Upload `dist/models.zip` to the corresponding release at https://github.com/plues/models/releases.
+
+#### 5. Create Distributable Packages of `plues`
+
+On the corresponding branch, i.e. `master`.
+
+**IMPORTANT** Make sure `src/main/resources/local.properties` does not override any settings.
 
 In the `plues` repositry run:
 
