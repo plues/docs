@@ -3,6 +3,10 @@
 This document describes how to release of the projects involved in the PlUES
 Timetable Validation Tool and project.
 
+[TOC]
+
+## Introduction
+
 Project releases have to follow this logical order to avoid problems in the process:
 
 1. mincer
@@ -21,7 +25,7 @@ Project releases have to follow this logical order to avoid problems in the proc
 
 If everything works as expected
 
-Bump the version number, e.g. from 3.0.0-SNAPSHOT to `3.0.0`
+Bump the version number, e.g. from `3.0.0-SNAPSHOT` to `3.0.0`
 
 * `bumpversion --verbose release`
 * and finish the release with `git flow release finish`
@@ -128,7 +132,7 @@ In the develop branch:
   * `git commit -m 'Updated test dependencies to release versions'`
  * run `make test-data` to regenerate test data using the latest versions of **model-generator** and
    **mincer**.
-   
+
 
 **Run Tests**
 
@@ -147,7 +151,7 @@ In the develop branch:
 * Update `tests/data/raw/Makefile`
  * set `MINCER_VERSION` and `MODEL_GENERATOR_VERSION` to the
    corresponding `SNAPSHOT` versions as chosen in the steps above.
-* run `make test-data` to regenerate test data using the latest versions of 
+* run `make test-data` to regenerate test data using the latest versions of
 **model-generator** and
   **mincer**.
 * commint changes
@@ -170,9 +174,38 @@ then run:
 
 ## Handbook
 
+The handbook also follows the git-flow process.
+
 ### 1. Release
 
+#### Start release process
+
+    git flow release start <version>
+
+#### Bump version number
+
+    bumpversion --verbose release
+
+#### Check handbook
+
+run the following command to generate the pdf and html versions of the handbook to check that everything workds as expected
+
+    make
+
+If everything is as expected finish the release with:
+
+    git flow release finish
+    git push origin master:master --tags
+    git push origin develop
+
+
+
 ### 2. Next Version
+
+In the **develop** branch set the version for the next release:
+
+    bump version major|minor|patch
+    git push origin develop:develop
 
 ## PlUES
 
@@ -201,7 +234,7 @@ Commit changes:
 
  * Set `handbook-url` to the URL of the released handbook in `src/main/resources/main.properties`.
 
- Commit changes:
+Commit changes:
 
     git add src/main/resources/main.properties
     git commit -m 'Updated handbook url'
@@ -225,7 +258,6 @@ In the **develop** branch:
     (cd model-generator; git checkout develop; git pull)
     git add model-generator
     git commit -m 'Updated submodule to the latest development version'
-    bumpversion --verbose major|minor|patch
 
 #### Update required model version in `src/main/resources/main.properties`:
 
@@ -236,6 +268,9 @@ Commit changes:
     git add src/main/resources/main.properties
     git commit -m 'Updated required version of models'
 
+#### Set next development version
+
+    bumpversion --verbose major|minor|patch
 
 ### 3. Push Everything
 
@@ -288,12 +323,35 @@ In the **corresponding branch** for the release (e.g. master) run:
 
 This copies and packages all relevant model files to `dist/models.zip`.
 
+#### Add to PlUES
+
 Copy the created dist/models.zip file to the resources direcotry in the plues
 project: `src/main/resources`.
 
+### Publish on github
+
 Upload `dist/models.zip` to the corresponding release at https://github.com/plues/models/releases.
 
-#### 5. Create Distributable Packages of `plues`
+#### 5. Packaging `handbook`
+
+Go to the corresponding branch (e.g. **master**) in you `handbook` checkout and generate the handbook files with:
+
+    make
+
+
+#### Add to PlUES
+Copy the generated `.html` and `.pdf` files to your plues checkout:
+
+    cp handbook-<version>.html <plues checkout>/src/main/resources/doc/handbook.html
+    cp handbook-<version>.pdf <plues checkout>/src/main/resources/doc/handbook.pdf
+
+#### Publish on github
+
+Upload `handbook-<version>.html` and `handbook-<version>.pdf` to the corresponding release at https://github.com/plues/handbook/releases.
+
+
+
+#### 6. Create Distributable Packages of `plues`
 
 On the corresponding branch, i.e. `master`.
 
