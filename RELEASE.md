@@ -74,10 +74,11 @@ In the develop branch set the version for the development version with:
 ### 1. Release
 
     git flow release start <version>
+    bumpversion release
 
 Update the `Makefile`:
 
-* set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
+* set `MINCER_VERSION` and `MODEL_GENERATOR_VERSION` to the
   corresponding release versions as chosen in the steps above.
 * Once builds above have finished run `make data.mch` to verify everything works as expected.
 
@@ -93,10 +94,14 @@ If everything works as expected:
 In the develop branch:
 
 1. Update `Makefile`
- * set `MODEL_GENERATOR_VERSION` and `MODEL_GENERATOR_VERSION` to the
+ * set `MINCER_VERSION ` and `MODEL_GENERATOR_VERSION` to the
    corresponding `SNAPSHOT` versions as chosen in the steps above.
 * Once builds above have finished run `make data.mch` to verify everything works as expected.
 * Commit changes.
+
+bump version to next development version:
+    
+    bumpversion --verbose patch|major|minor
 
 ### 3. Push Everything
 
@@ -186,6 +191,14 @@ The handbook also follows the git-flow process.
 
     bumpversion --verbose release
 
+#### Update Handbook for release
+
+Update tool Version numbers and URLs:
+
+* Section 1.1 Links and versions
+* Section 2.1: Version
+
+
 #### Check handbook
 
 run the following command to generate the pdf and html versions of the handbook to check that everything workds as expected
@@ -205,6 +218,16 @@ If everything is as expected finish the release with:
 In the **develop** branch set the version for the next release:
 
     bump version major|minor|patch
+
+#### Update Handbook for release
+
+Update tool Version numbers and URLs:
+
+* Section 1.1 Links and versions
+* Section 2.1: Version
+
+and push:
+
     git push origin develop:develop
 
 ## PlUES
@@ -277,7 +300,7 @@ Commit changes:
     git push origin master:master --tags
     git push origin develop:develop
 
-### 4. Preparing Distribution Artifacts
+## Distribution
 
 #### 1. Packaging `mincer`
 
