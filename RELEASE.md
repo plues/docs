@@ -255,13 +255,21 @@ Commit changes:
 
 #### Update Handbook URL
 
- * Set `handbook-url` to the URL of the released handbook in `src/main/resources/main.properties`.
+ * Set `handbook-url-html` and `handbook-url-pdf` to the URL of the released handbook in `src/main/resources/main.properties`.
 
 Commit changes:
 
     git add src/main/resources/main.properties
     git commit -m 'Updated handbook url'
 
+#### Update ProB2
+
+* Update `build.gradle`. Switch from `SNAPSHOT` to latest ProB2 release. [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22de.prob2.kernel%22)
+
+```
+git add build.gradle
+git commit -m 'Updated ProB2 to latest release'
+```
 
 #### Run tests
 
@@ -290,6 +298,24 @@ Commit changes:
 
     git add src/main/resources/main.properties
     git commit -m 'Updated required version of models'
+
+#### Update Handbook URL
+
+ * Set `handbook-url-html` and `handbook-url-pdf` to the URL of the latest development version handbook in `src/main/resources/main.properties`.
+
+Commit changes:
+
+    git add src/main/resources/main.properties
+    git commit -m 'Updated handbook url'
+
+#### Update ProB2
+
+* Update `build.gradle`. Switch to the current `SNAPSHOT` of ProB2. [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22de.prob2.kernel%22)
+
+```
+git add build.gradle
+git commit -m 'Updated ProB2 to SNAPSHOT release'
+```
 
 #### Set next development version
 
