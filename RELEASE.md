@@ -18,7 +18,7 @@ Project releases have to follow this logical order to avoid problems in the proc
 ## Mincer
 
 ### 1. Release
-
+* Remember to pull/fetch-merge.
 * `git flow release start <version>`
 * `lein ancient` to check if the dependencies are up to date.
 * `lein test`
@@ -48,6 +48,8 @@ version number. E.g. after releasing `3.0.0`
 
 ### 1. Release
 
+Remember to pull/fetch-merge.
+
 steps:
 
     git flow release start <version>
@@ -72,6 +74,8 @@ In the develop branch set the version for the development version with:
 ## Data
 
 ### 1. Release
+
+Remember to pull/fetch-merge.
 
     git flow release start <version>
     bumpversion release
@@ -100,7 +104,7 @@ In the develop branch:
 * Commit changes.
 
 bump version to next development version:
-    
+
     bumpversion --verbose patch|major|minor
 
 ### 3. Push Everything
@@ -118,9 +122,11 @@ bump version to next development version:
 
 ### 1. Release
 
+Remember to pull/fetch-merge.
 
     git flow release start <version>
-    (cd data; git checkout master; git pull)
+    git submodule update --init
+    (cd data; git checkout master; git pull origin master)
     git add data
     git commit -m 'Updated submodule to the latest release'
 
@@ -143,8 +149,10 @@ bump version to next development version:
 
     make data.mch solver7_tests tests
 
-If everything works as expected commint changes and:
+If everything works as expected commit changes and:
 
+    git add tests/data/raw
+    git commit -m 'Regenerated test data files'
     bumpversion --verbose release
     git flow release finish
 
@@ -159,7 +167,7 @@ In the develop branch:
 * run `make test-data` to regenerate test data using the latest versions of
 **model-generator** and
   **mincer**.
-* commint changes
+* commit changes
   * `git add tests/data/raw/Makefile`
   * `git commit -m 'Updated test dependencies to development versions'`
   * `git add tests/data/raw`
@@ -169,6 +177,7 @@ In the develop branch:
 then run:
 
     (cd data; git checkout develop; git pull)
+    git add data
     git commit -m 'Updated submodule to the latest development version'
     bumpversion --verbose major|minor|patch
 
@@ -185,6 +194,8 @@ The handbook also follows the git-flow process.
 
 #### Start release process
 
+Remember to pull/fetch-merge.
+
     git flow release start <version>
 
 #### Bump version number
@@ -193,9 +204,9 @@ The handbook also follows the git-flow process.
 
 #### Update Handbook for release
 
-Update tool Version numbers and URLs:
+Update tool Version numbers and URLs in `dokumentation.md`:
 
-* Section 1.1 Links and versions
+* Section 1.1 links and versions
 * Section 2.1: Version
 
 
@@ -205,7 +216,13 @@ run the following command to generate the pdf and html versions of the handbook 
 
     make
 
-If everything is as expected finish the release with:
+
+If everything is as expected commit changes:
+
+    git add dokumentation.md
+    git commit -m 'Updated version numbers'
+
+And finish the release with:
 
     git flow release finish
     git push origin master:master --tags
@@ -217,16 +234,16 @@ If everything is as expected finish the release with:
 
 In the **develop** branch set the version for the next release:
 
-    bump version major|minor|patch
+    bumpversion major|minor|patch
 
-#### Update Handbook for release
+#### Update Handbook for development
 
-Update tool Version numbers and URLs:
+Update tool Version numbers and URLs in `dokumentation.md`:
 
 * Section 1.1 Links and versions
 * Section 2.1: Version
 
-and push:
+Commit `dokumentation.md` and push everything:
 
     git push origin develop:develop
 
@@ -415,4 +432,3 @@ this step creates the following artifacts, which can be distributed:
 * `build/distributions/plues-<VERSION>.dmg` (Mac Os)
 * `build/distributions/plues-<VERSION>.tar`
 * `build/launch4j/plues-2.0.0-<VERSION>-win.zip` (Windows)
-
