@@ -431,4 +431,4 @@ this step creates the following artifacts, which can be distributed:
 
 * `build/distributions/plues-<VERSION>.dmg` (Mac Os)
 * `build/distributions/plues-<VERSION>.tar`
-* `build/launch4j/plues-2.0.0-<VERSION>-win.zip` (Windows)
+* `build/launch4j/plues-<VERSION>-win.zip` (Windows)
