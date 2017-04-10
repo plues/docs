@@ -9,7 +9,7 @@ Timetable Validation Tool and project.
 
 Project releases have to follow this logical order to avoid problems in the process:
 
-1. mincer
+* mincer
 * model-generator
 * data
 * models
