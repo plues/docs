@@ -13,6 +13,7 @@ Project releases have to follow this logical order to avoid problems in the proc
 * model-generator
 * data
 * models
+* handbook
 * plues
 
 ## Mincer
